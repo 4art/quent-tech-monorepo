@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -28,7 +29,7 @@ export default function AboutPage() {
               <div className="space-y-4 text-gray-600 text-lg">
                 <p>
                   Quent Tech Ltd was founded in 2026 to bring enterprise-grade technology
-                  solutions to businesses of all sizes. With 8+ years of experience at
+                  solutions to businesses of all sizes. With 10+ years of experience at
                   leading financial institutions and global enterprises, we understand what
                   it takes to build systems that scale and deliver real business value.
                 </p>
@@ -133,14 +134,18 @@ export default function AboutPage() {
             <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
               <div className="gradient-bg h-32"></div>
               <div className="px-8 pb-8 -mt-12">
-                <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-3xl font-bold text-[#0066cc] border-4 border-white shadow-lg mx-auto">
-                  AF
-                </div>
+                <Image
+                  src="/artem.jpg"
+                  alt="Artem Firsov"
+                  width={96}
+                  height={96}
+                  className="w-24 h-24 rounded-full border-4 border-white shadow-lg mx-auto object-cover"
+                />
                 <div className="text-center mt-4">
                   <h3 className="text-xl font-bold">Artem Firsov</h3>
                   <p className="text-gray-500 mb-4">Founder & Principal Consultant</p>
                   <p className="text-gray-600">
-                    Technology leader with 8+ years of experience across cloud platforms,
+                    Technology leader with 10+ years of experience across cloud platforms,
                     data engineering, and quantitative systems. Background at leading
                     financial institutions and global enterprises. Certified Derivatives
                     Trader, Fixed Income Expert. Oxford Algorithmic Trading Program.
