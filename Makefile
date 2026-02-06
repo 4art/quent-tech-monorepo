@@ -1,4 +1,4 @@
-.PHONY: help preview deploy destroy refresh outputs publish build sync invalidate install
+.PHONY: help deploy infra infra-preview destroy refresh outputs build sync invalidate install
 
 # Directories
 INFRA_DIR := infra
@@ -7,23 +7,10 @@ WEBSITE_DIR := website
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-# Infrastructure commands
-preview: ## Preview infrastructure changes
-	cd $(INFRA_DIR) && pulumi preview
+# Main commands
+deploy: build sync invalidate ## Build, sync to S3, and invalidate CloudFront
+	@echo "Website deployed successfully!"
 
-deploy: ## Deploy infrastructure
-	cd $(INFRA_DIR) && pulumi up --yes
-
-destroy: ## Destroy all infrastructure (use with caution!)
-	cd $(INFRA_DIR) && pulumi destroy
-
-refresh: ## Refresh Pulumi state from cloud
-	cd $(INFRA_DIR) && pulumi refresh --yes
-
-outputs: ## Show Pulumi stack outputs
-	cd $(INFRA_DIR) && pulumi stack output
-
-# Website commands
 build: ## Build the website
 	cd $(WEBSITE_DIR) && npm run build
 
@@ -33,9 +20,21 @@ sync: ## Sync website to S3 bucket
 invalidate: ## Invalidate CloudFront cache
 	cd $(INFRA_DIR) && make invalidate
 
-# Combined commands
-publish: ## Build, sync, and invalidate (full website deployment)
-	cd $(INFRA_DIR) && make publish
+# Infrastructure commands
+infra: ## Deploy infrastructure changes (Pulumi)
+	cd $(INFRA_DIR) && pulumi up --yes
+
+infra-preview: ## Preview infrastructure changes
+	cd $(INFRA_DIR) && pulumi preview
+
+destroy: ## Destroy all infrastructure (use with caution!)
+	cd $(INFRA_DIR) && pulumi destroy
+
+refresh: ## Refresh Pulumi state from cloud
+	cd $(INFRA_DIR) && pulumi refresh --yes
+
+outputs: ## Show Pulumi stack outputs
+	cd $(INFRA_DIR) && pulumi stack output
 
 # Setup commands
 install: ## Install dependencies for both infra and website
