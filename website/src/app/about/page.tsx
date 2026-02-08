@@ -3,8 +3,12 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | Quent Tech Ltd",
-  description: "Learn about Quent Tech Ltd - boutique IT consultancy delivering enterprise-grade technology solutions for financial services, energy, and industrial sectors.",
+  title: "About Us - IT Consulting Experts in Cyprus",
+  description:
+    "Quent Tech Ltd: boutique IT consultancy in Paphos, Cyprus. Founded by Artem Firsov with 10+ years experience in financial services, trading systems, and cloud solutions.",
+  alternates: {
+    canonical: "https://quent-tech.com/about",
+  },
 };
 
 export default function AboutPage() {

@@ -2,8 +2,12 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Services | Quent Tech Ltd",
-  description: "Custom software development, data & analytics, cloud infrastructure, and quantitative solutions for financial services, energy, and industrial sectors.",
+  title: "IT Services - Software Development, Cloud & Data Engineering",
+  description:
+    "Professional IT services: custom software development, AWS/Azure cloud solutions, data engineering, trading systems, and fintech consulting. Enterprise-grade solutions in Cyprus.",
+  alternates: {
+    canonical: "https://quent-tech.com/services",
+  },
 };
 
 const services = [

@@ -1,4 +1,14 @@
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "IT Consulting & Cloud Solutions Cyprus | Quent Tech Ltd",
+  description:
+    "Expert IT consulting company in Cyprus. AWS, Azure, data engineering, trading systems, and custom software development. 10+ years enterprise experience. Based in Paphos.",
+  alternates: {
+    canonical: "https://quent-tech.com",
+  },
+};
 
 const services = [
   {
