@@ -22,9 +22,12 @@ export const metadata: Metadata = {
     template: "%s | Quent Tech Ltd",
   },
   description:
-    "Expert IT consulting and cloud solutions in Cyprus. Specializing in AWS, Azure, data engineering, trading systems, and custom software development. 10+ years experience.",
+    "Expert IT consulting, staff augmentation, and cloud solutions in Cyprus. Hire pre-vetted data engineers, cloud architects, and DevOps specialists. AWS, Azure, Databricks, Snowflake. B2B contractor model.",
   keywords: [
     "IT consulting Cyprus",
+    "staff augmentation",
+    "hire data engineers",
+    "B2B contractor",
     "cloud solutions",
     "AWS consulting",
     "Azure consulting",
@@ -34,6 +37,8 @@ export const metadata: Metadata = {
     "fintech consulting",
     "digital transformation",
     "Paphos IT company",
+    "Snowflake",
+    "Databricks",
   ],
   authors: [{ name: "Artem Firsov", url: "https://quent-tech.com/about" }],
   creator: "Quent Tech Ltd",
@@ -44,9 +49,9 @@ export const metadata: Metadata = {
     telephone: true,
   },
   openGraph: {
-    title: "Quent Tech Ltd | IT Consulting & Cloud Solutions",
+    title: "Quent Tech Ltd | IT Consulting, Staff Augmentation & Cloud Solutions",
     description:
-      "Expert IT consulting and cloud solutions. AWS, Azure, data engineering, and custom software development.",
+      "Expert IT consulting, staff augmentation, and cloud solutions. Hire data engineers and cloud architects. AWS, Azure, Databricks, Snowflake.",
     url: "https://quent-tech.com",
     siteName: "Quent Tech Ltd",
     locale: "en_US",
@@ -62,9 +67,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Quent Tech Ltd | IT Consulting & Cloud Solutions",
+    title: "Quent Tech Ltd | IT Consulting, Staff Augmentation & Cloud Solutions",
     description:
-      "Expert IT consulting and cloud solutions. AWS, Azure, data engineering, and custom software development.",
+      "Expert IT consulting, staff augmentation, and cloud solutions. Hire data engineers and cloud architects.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -116,7 +121,7 @@ const jsonLd = {
   sameAs: ["https://www.linkedin.com/company/quent-tech"],
   priceRange: "$$",
   description:
-    "Expert IT consulting and cloud solutions company in Cyprus. Specializing in AWS, Azure, data engineering, trading systems, and custom software development.",
+    "Expert IT consulting, staff augmentation, and cloud solutions company in Cyprus. Hire data engineers, cloud architects, and DevOps specialists. AWS, Azure, Databricks, Snowflake.",
   founder: {
     "@type": "Person",
     name: "Artem Firsov",
@@ -126,6 +131,7 @@ const jsonLd = {
   areaServed: ["Cyprus", "Europe", "Worldwide"],
   serviceType: [
     "IT Consulting",
+    "Staff Augmentation",
     "Cloud Solutions",
     "Software Development",
     "Data Engineering",

@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "IT Services - Software Development, Cloud & Data Engineering",
+  title: "IT Services - Software Development, Cloud, Data Engineering & Staff Augmentation",
   description:
-    "Professional IT services: custom software development, AWS/Azure cloud solutions, data engineering, trading systems, and fintech consulting. Enterprise-grade solutions in Cyprus.",
+    "Professional IT services: custom software development, AWS/Azure cloud solutions, data engineering, staff augmentation, and B2B contractor model. Hire pre-vetted data engineers and cloud architects.",
   alternates: {
     canonical: "https://quent-tech.com/services",
   },
@@ -67,6 +67,17 @@ const services = [
     ],
   },
   {
+    title: "Staff Augmentation",
+    description: "Scale your engineering team with pre-vetted senior professionals. B2B contract model with Reverse Charge for EU clients — no employer taxes, no overhead. Rapid onboarding within 48 hours.",
+    features: [
+      "Data Engineers & Architects",
+      "Cloud & DevOps Specialists",
+      "Databricks & Snowflake Experts",
+      "B2B Contract Model (Reverse Charge)",
+      "Rapid Onboarding — 48h to Start",
+    ],
+  },
+  {
     title: "Industrial & Energy Solutions",
     description: "Technology solutions for energy, manufacturing, and industrial sectors. We understand the operational requirements of process industries.",
     features: [
@@ -87,7 +98,7 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl lg:text-5xl font-bold mb-6">Our Services</h1>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            From strategy to implementation - complete technology solutions for your business
+            From strategy to implementation, from consulting to staff augmentation — complete technology solutions for your business
           </p>
         </div>
       </section>
@@ -128,7 +139,7 @@ export default function ServicesPage() {
               Flexible engagement models to match your needs
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-4 gap-8">
             {[
               {
                 title: "Consulting",
@@ -139,8 +150,12 @@ export default function ServicesPage() {
                 description: "End-to-end project execution with defined scope and deliverables"
               },
               {
-                title: "Team Extension",
-                description: "Embedded expertise to augment your existing team"
+                title: "Team Augmentation",
+                description: "Pre-vetted senior engineers embedded into your team"
+              },
+              {
+                title: "B2B Contracting",
+                description: "EU Reverse Charge model — no employer taxes, clean invoicing"
               },
             ].map((model, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-sm text-center">
@@ -159,14 +174,22 @@ export default function ServicesPage() {
             Have a Project in Mind?
           </h2>
           <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-            Let&apos;s discuss your requirements and find the right approach for your needs.
+            Let&apos;s discuss your requirements and find the right approach — whether that&apos;s a project engagement or scaling your team with our engineers.
           </p>
-          <Link
-            href="/contact"
-            className="gradient-bg text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block text-lg"
-          >
-            Get in Touch
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="gradient-bg text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block text-lg"
+            >
+              Start a Project
+            </Link>
+            <Link
+              href="/contact"
+              className="border-2 border-[#0066cc] text-[#0066cc] px-8 py-4 rounded-lg font-semibold hover:bg-[#0066cc] hover:text-white transition-colors inline-block text-lg"
+            >
+              Hire Engineers
+            </Link>
+          </div>
         </div>
       </section>
     </>

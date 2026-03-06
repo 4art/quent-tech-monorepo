@@ -3,9 +3,9 @@ import Image from "next/image";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us - IT Consulting Experts in Cyprus",
+  title: "About Us - IT Consulting & Staff Augmentation Experts",
   description:
-    "Quent Tech Ltd: boutique IT consultancy in Paphos, Cyprus. Founded by Artem Firsov with 10+ years experience in financial services, trading systems, and cloud solutions.",
+    "Quent Tech Ltd: boutique IT consultancy and staff augmentation firm in Paphos, Cyprus. Founded by Artem Firsov with 10+ years experience. Hire data engineers and cloud architects.",
   alternates: {
     canonical: "https://quent-tech.com/about",
   },
@@ -19,7 +19,7 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl lg:text-5xl font-bold mb-6">About Quent Tech</h1>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Your trusted partner for technology consulting and software solutions
+            Your trusted partner for technology consulting, software solutions, and engineering talent
           </p>
         </div>
       </section>
@@ -33,19 +33,21 @@ export default function AboutPage() {
               <div className="space-y-4 text-gray-600 text-lg">
                 <p>
                   Quent Tech Ltd was founded in 2026 to bring enterprise-grade technology
-                  solutions to businesses of all sizes. With 10+ years of experience at
-                  leading financial institutions and global enterprises, we understand what
-                  it takes to build systems that scale and deliver real business value.
-                </p>
-              <p>
-                  Based in Europe with a global outlook, we deliver end-to-end technology
-                  solutions across cloud platforms (AWS, Azure, GCP), data engineering,
-                  and custom software development. From trading systems to industrial
-                  analytics, we turn complex requirements into production-ready solutions.
+                  solutions and senior engineering talent to businesses of all sizes. With
+                  10+ years of experience at leading financial institutions and global
+                  enterprises, we understand what it takes to build systems that scale and
+                  deliver real business value.
                 </p>
                 <p>
-                  We believe in Infrastructure as Code, automated deployments, and
-                  building systems that are maintainable, scalable, and cost-efficient.
+                  Based in Europe with a global outlook, we deliver end-to-end technology
+                  solutions across cloud platforms (AWS, Azure, GCP), data engineering,
+                  and custom software development. We also connect companies with
+                  pre-vetted senior engineers through our staff augmentation practice.
+                </p>
+                <p>
+                  Backed by a curated network of senior engineers, we offer both project
+                  delivery and team augmentation — always with the same commitment to
+                  quality, reliability, and results.
                 </p>
               </div>
             </div>
@@ -148,12 +150,20 @@ export default function AboutPage() {
                 <div className="text-center mt-4">
                   <h3 className="text-xl font-bold">Artem Firsov</h3>
                   <p className="text-gray-500 mb-4">Founder & Principal Consultant</p>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 mb-4">
                     Technology leader with 10+ years of experience across cloud platforms,
-                    data engineering, and quantitative systems. Background at leading
-                    financial institutions and global enterprises. Certified Derivatives
-                    Trader, Fixed Income Expert. Oxford Algorithmic Trading Program.
+                    data engineering, and quantitative systems. Leads a curated network of
+                    senior engineers delivering consulting and staff augmentation services.
                   </p>
+                  <div className="bg-gray-50 rounded-lg p-4 text-left">
+                    <h4 className="text-sm font-semibold text-gray-700 mb-2">Credentials</h4>
+                    <ul className="space-y-1 text-sm text-gray-600">
+                      <li>• Certified Derivatives Trader</li>
+                      <li>• Fixed Income Expert</li>
+                      <li>• Oxford Algorithmic Trading Program</li>
+                      <li>• Background at leading financial institutions</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>

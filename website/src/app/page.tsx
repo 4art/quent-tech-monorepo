@@ -2,9 +2,9 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "IT Consulting & Cloud Solutions Cyprus | Quent Tech Ltd",
+  title: "IT Consulting, Staff Augmentation & Cloud Solutions | Quent Tech Ltd",
   description:
-    "Expert IT consulting company in Cyprus. AWS, Azure, data engineering, trading systems, and custom software development. 10+ years enterprise experience. Based in Paphos.",
+    "Expert IT consulting and staff augmentation in Cyprus. Hire pre-vetted data engineers, cloud architects, and DevOps specialists. AWS, Azure, Databricks, Snowflake. B2B contractor model.",
   alternates: {
     canonical: "https://quent-tech.com",
   },
@@ -54,7 +54,32 @@ const industries = [
 ];
 
 const technologies = [
-  "AWS", "Azure", "GCP", "Cloudflare", "Databricks", "Spark", "Terraform", "Kubernetes", "Python"
+  "AWS", "Azure", "GCP", "Cloudflare", "Databricks", "Snowflake", "Spark", "Kafka", "Airflow", "SQL", "Terraform", "Kubernetes", "Python"
+];
+
+const augmentationRoles = [
+  "Data Engineers",
+  "Cloud Architects",
+  "Databricks & Snowflake Specialists",
+  "DevOps Engineers",
+];
+
+const steps = [
+  {
+    number: "01",
+    title: "Brief",
+    description: "Tell us what you need — role, tech stack, and timeline.",
+  },
+  {
+    number: "02",
+    title: "Match",
+    description: "We find the right engineer from our vetted network within 48 hours.",
+  },
+  {
+    number: "03",
+    title: "Deliver",
+    description: "Seamless integration into your team — productive from day one.",
+  },
 ];
 
 export default function Home() {
@@ -68,8 +93,9 @@ export default function Home() {
               Technology Solutions That Deliver Results
             </h1>
             <p className="text-xl lg:text-2xl text-blue-100 mb-8">
-              Boutique IT consultancy with deep expertise in financial services,
-              energy, and industrial sectors. We consult, we build, we deliver.
+              Boutique IT consultancy and staff augmentation with deep expertise in
+              financial services, energy, and industrial sectors. We consult, we build,
+              we staff, we deliver.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -79,10 +105,10 @@ export default function Home() {
                 Start a Project
               </Link>
               <Link
-                href="/services"
+                href="/contact"
                 className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#0066cc] transition-colors text-center"
               >
-                Our Services
+                Hire Engineers
               </Link>
             </div>
           </div>
@@ -145,8 +171,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Expertise Section */}
+      {/* Team Augmentation Section */}
       <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Scale Your Team with Pre-Vetted Engineers
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Need senior talent fast? We match you with experienced engineers who integrate
+              seamlessly into your existing workflows.
+            </p>
+          </div>
+
+          {/* 3-step process */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            {steps.map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="w-16 h-16 rounded-full gradient-bg text-white text-2xl font-bold flex items-center justify-center mx-auto mb-4">
+                  {step.number}
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
+                <p className="text-gray-600">{step.description}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Roles */}
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 max-w-2xl mx-auto">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800 text-center">Available Roles</h3>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {augmentationRoles.map((role, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <svg className="w-5 h-5 text-[#0066cc] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700">{role}</span>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link
+                href="/contact"
+                className="gradient-bg text-white px-6 py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block"
+              >
+                Hire Engineers
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Expertise Section */}
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -194,35 +271,35 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-              <div className="mt-8 pt-6 border-t border-gray-100">
-                <h3 className="text-xl font-semibold mb-4 text-gray-800">Credentials</h3>
-                <ul className="space-y-2 text-gray-600">
-                  <li>Certified Derivatives Trader</li>
-                  <li>Fixed Income Expert</li>
-                  <li>Oxford Algorithmic Trading Program</li>
-                </ul>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
+      <section className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
             Let&apos;s Build Something Together
           </h2>
           <p className="text-gray-600 text-lg mb-8 max-w-2xl mx-auto">
-            Whether you need strategic advice, a development team, or a complete solution -
-            we&apos;re here to help.
+            Whether you need strategic advice, a development team, or skilled engineers
+            to augment your workforce — we&apos;re here to help.
           </p>
-          <Link
-            href="/contact"
-            className="gradient-bg text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block text-lg"
-          >
-            Get in Touch
-          </Link>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="gradient-bg text-white px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity inline-block text-lg"
+            >
+              Start a Project
+            </Link>
+            <Link
+              href="/contact"
+              className="border-2 border-[#0066cc] text-[#0066cc] px-8 py-4 rounded-lg font-semibold hover:bg-[#0066cc] hover:text-white transition-colors inline-block text-lg"
+            >
+              Hire Engineers
+            </Link>
+          </div>
         </div>
       </section>
     </>
