@@ -159,6 +159,18 @@ export default function RootLayout({
         <main className="min-h-screen">{children}</main>
         <Footer />
         <CookieConsent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+(function(){
+  if(navigator.doNotTrack==="1")return;
+  var d={event_type:"pageview",path:location.pathname,referrer:document.referrer,ts:Date.now()};
+  try{navigator.sendBeacon("https://quent-tech-analytics.quent-tech.workers.dev",JSON.stringify(d))}
+  catch(e){fetch("https://quent-tech-analytics.quent-tech.workers.dev",{method:"POST",body:JSON.stringify(d),keepalive:true}).catch(function(){})}
+})();
+`
+          }}
+        />
       </body>
     </html>
   );
