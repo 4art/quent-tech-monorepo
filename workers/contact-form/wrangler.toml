@@ -1,0 +1,17 @@
+name = "quent-tech-contact"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[vars]
+NOTIFICATION_EMAIL = "info@quent-tech.com"
+ALLOWED_ORIGINS = "https://quent-tech.com,https://www.quent-tech.com"
+AWS_REGION = "eu-central-1"
+
+# AWS SES credentials - set via wrangler secret
+# AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY
+
+# Routes will be added after zone is created in Cloudflare
+# routes = [
+#   { pattern = "api.quent-tech.com/contact", zone_name = "quent-tech.com" }
+# ]

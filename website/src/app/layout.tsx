@@ -164,9 +164,105 @@ export default function RootLayout({
             __html: `
 (function(){
   if(navigator.doNotTrack==="1")return;
-  var d={event_type:"pageview",path:location.pathname,referrer:document.referrer,ts:Date.now()};
-  try{navigator.sendBeacon("https://quent-tech-analytics.quent-tech.workers.dev",JSON.stringify(d))}
-  catch(e){fetch("https://quent-tech-analytics.quent-tech.workers.dev",{method:"POST",body:JSON.stringify(d),keepalive:true}).catch(function(){})}
+  var E="https://quent-tech-analytics.quent-tech.workers.dev";
+  var Q=[];
+
+  // Session ID (cookie-based, 30min expiry)
+  function sid(){
+    var m=document.cookie.match(/(?:^|;)\\s*_qt_sid=([^;]+)/);
+    if(m)return m[1];
+    var id=Math.random().toString(36).slice(2)+Date.now().toString(36);
+    document.cookie="_qt_sid="+id+";path=/;max-age=1800;SameSite=Lax";
+    return id;
+  }
+  var sessionId=sid();
+
+  // UTM extraction
+  var sp=new URLSearchParams(location.search);
+  var utm={};
+  ["source","medium","campaign","term","content"].forEach(function(k){
+    var v=sp.get("utm_"+k);if(v)utm["utm_"+k]=v;
+  });
+
+  // Device info
+  var dev={
+    screen_width:screen.width,screen_height:screen.height,
+    viewport_width:window.innerWidth,viewport_height:window.innerHeight,
+    device_pixel_ratio:window.devicePixelRatio||1,
+    touch:"ontouchstart"in window,
+    language:navigator.language||"",
+    connection_type:(navigator.connection&&navigator.connection.effectiveType)||""
+  };
+
+  function send(d){
+    d.session_id=sessionId;
+    Object.assign(d,dev,utm);
+    try{navigator.sendBeacon(E,JSON.stringify(d))}
+    catch(e){fetch(E,{method:"POST",body:JSON.stringify(d),keepalive:true}).catch(function(){})}
+  }
+
+  // Pageview
+  send({event_type:"pageview",path:location.pathname,referrer:document.referrer,title:document.title,ts:Date.now()});
+
+  // Web Vitals via PerformanceObserver
+  function vitals(){
+    if(!window.PerformanceObserver)return;
+    var metrics={};
+    function observe(type,cb){
+      try{new PerformanceObserver(function(l){l.getEntries().forEach(cb)}).observe({type:type,buffered:true})}catch(e){}
+    }
+    observe("largest-contentful-paint",function(e){metrics.lcp=e.startTime});
+    observe("first-input",function(e){metrics.fid=e.processingStart-e.startTime});
+    observe("layout-shift",function(e){if(!e.hadRecentInput)metrics.cls=(metrics.cls||0)+e.value});
+    observe("event",function(e){if(e.interactionId){var d=e.duration;metrics.inp=metrics.inp?Math.max(metrics.inp,d):d}});
+    // Paint timing for FCP, TTFB
+    try{
+      var nav=performance.getEntriesByType("navigation")[0];
+      if(nav)metrics.ttfb=nav.responseStart;
+      var paint=performance.getEntriesByType("paint");
+      paint.forEach(function(p){if(p.name==="first-contentful-paint")metrics.fcp=p.startTime});
+    }catch(e){}
+    // Send after 10s to capture LCP
+    setTimeout(function(){
+      if(Object.keys(metrics).length)send(Object.assign({event_type:"vitals",path:location.pathname},metrics));
+    },10000);
+  }
+  vitals();
+
+  // Scroll depth tracking
+  var maxScroll=0;
+  var scrollTimer;
+  window.addEventListener("scroll",function(){
+    clearTimeout(scrollTimer);
+    scrollTimer=setTimeout(function(){
+      var h=document.documentElement;
+      var pct=Math.round(100*(h.scrollTop+h.clientHeight)/h.scrollHeight);
+      if(pct>maxScroll)maxScroll=pct;
+    },200);
+  },{passive:true});
+
+  // Click tracking (outbound links + CTA buttons)
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("a[href],button,[data-cta]");
+    if(!t)return;
+    var href=t.getAttribute("href")||"";
+    var isOutbound=href&&href.startsWith("http")&&!href.includes("quent-tech.com");
+    var isCTA=t.hasAttribute("data-cta")||t.closest("[data-cta]");
+    if(isOutbound||isCTA){
+      send({event_type:isOutbound?"outbound_click":"cta_click",path:location.pathname,
+        click_href:href,click_text:(t.textContent||"").trim().slice(0,100),
+        click_target:t.tagName.toLowerCase()});
+    }
+  });
+
+  // Time on page + scroll depth on unload
+  var pageStart=Date.now();
+  window.addEventListener("visibilitychange",function(){
+    if(document.visibilityState==="hidden"){
+      send({event_type:"engagement",path:location.pathname,
+        time_on_page:Math.round((Date.now()-pageStart)/1000),scroll_depth:maxScroll});
+    }
+  });
 })();
 `
           }}

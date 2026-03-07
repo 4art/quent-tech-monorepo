@@ -1,0 +1,10 @@
+name = "quent-tech-analytics"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+
+[[pipelines]]
+pipeline = "85859721adbf4fceaac478f50f6129fd"
+binding = "ANALYTICS_PIPELINE"
+
+[vars]
+ALLOWED_ORIGINS = "https://quent-tech.com,https://www.quent-tech.com"
