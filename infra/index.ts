@@ -1,5 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
+import * as cloudflare from "@pulumi/cloudflare";
+import * as command from "@pulumi/command";
 
 const config = new pulumi.Config();
 const domainName = "quent-tech.com";
@@ -479,6 +481,123 @@ const apiRecord = new aws.route53.Record("api-record", {
 });
 
 // =============================================================================
+// Cloudflare Analytics Pipeline (R2 → Pipelines → Iceberg)
+// =============================================================================
+
+const cfConfig = new pulumi.Config("cloudflare");
+const cfAccountId = cfConfig.require("account_id");
+const cfApiToken = cfConfig.requireSecret("apiToken");
+
+const cfProvider = new cloudflare.Provider("cf-provider", {
+  apiToken: cfApiToken,
+});
+
+// R2 bucket for analytics (import existing)
+const analyticsR2Bucket = new cloudflare.R2Bucket("analytics-r2-bucket", {
+  accountId: cfAccountId,
+  name: "quent-tech-analytics",
+  location: "EEUR",
+}, { provider: cfProvider });
+
+// Enable R2 Data Catalog
+const enableDataCatalog = new command.local.Command("enable-r2-data-catalog", {
+  create: pulumi.all([cfApiToken]).apply(
+    ([token]) =>
+      `CLOUDFLARE_API_TOKEN="${token}" CLOUDFLARE_ACCOUNT_ID="${cfAccountId}" npx wrangler@latest r2 bucket catalog enable quent-tech-analytics 2>/dev/null || true`
+  ),
+}, { dependsOn: [analyticsR2Bucket] });
+
+// Pipeline Stream (HTTP ingest endpoint)
+const createStream = new command.local.Command("analytics-pipeline-stream", {
+  create: pulumi.all([cfApiToken]).apply(
+    ([token]) => `
+      export CLOUDFLARE_API_TOKEN="${token}"
+      export CLOUDFLARE_ACCOUNT_ID="${cfAccountId}"
+      if npx wrangler@latest pipelines streams list 2>&1 | grep -q "quent_tech_analytics_stream"; then
+        echo "Stream already exists"
+      else
+        npx wrangler@latest pipelines streams create quent_tech_analytics_stream --http-enabled --no-http-auth 2>&1
+      fi
+    `
+  ),
+  delete: pulumi.all([cfApiToken]).apply(([token]) => `
+    export CLOUDFLARE_API_TOKEN="${token}"
+    export CLOUDFLARE_ACCOUNT_ID="${cfAccountId}"
+    npx wrangler@latest pipelines streams delete quent_tech_analytics_stream 2>&1 || true
+  `),
+}, { dependsOn: [enableDataCatalog] });
+
+// Pipeline Sink (R2 Data Catalog / Iceberg)
+const createSink = new command.local.Command("analytics-pipeline-sink", {
+  create: pulumi.all([cfApiToken]).apply(
+    ([token]) => `
+      export CLOUDFLARE_API_TOKEN="${token}"
+      export CLOUDFLARE_ACCOUNT_ID="${cfAccountId}"
+      if npx wrangler@latest pipelines sinks list 2>&1 | grep -q "quent_tech_analytics_sink"; then
+        echo "Sink already exists"
+      else
+        npx wrangler@latest pipelines sinks create quent_tech_analytics_sink \
+          --type r2-data-catalog \
+          --bucket quent-tech-analytics \
+          --namespace quent_tech \
+          --table website_events \
+          --catalog-token "${token}" \
+          --format parquet \
+          --compression zstd \
+          2>&1
+      fi
+    `
+  ),
+  delete: pulumi.all([cfApiToken]).apply(([token]) => `
+    export CLOUDFLARE_API_TOKEN="${token}"
+    export CLOUDFLARE_ACCOUNT_ID="${cfAccountId}"
+    npx wrangler@latest pipelines sinks delete quent_tech_analytics_sink 2>&1 || true
+  `),
+}, { dependsOn: [enableDataCatalog] });
+
+// Pipeline with SQL Transform
+const sqlTransform = `
+INSERT INTO quent_tech_analytics_sink
+SELECT
+  to_timestamp(json_get_str(value, 'timestamp')) as _event_received_at,
+  json_get_str(value, 'date') as _event_received_on,
+  json_get_str(value, 'event_type') as event_type,
+  json_get_str(value, 'path') as path,
+  json_get_str(value, 'referrer') as referrer,
+  json_get_str(value, 'country') as country,
+  json_get_str(value, 'user_agent') as user_agent,
+  value as data
+FROM quent_tech_analytics_stream
+WHERE value IS NOT NULL
+`;
+
+const createPipeline = new command.local.Command("analytics-pipeline", {
+  create: pulumi.all([cfApiToken]).apply(
+    ([token]) => `
+      export CLOUDFLARE_API_TOKEN="${token}"
+      export CLOUDFLARE_ACCOUNT_ID="${cfAccountId}"
+      if npx wrangler@latest pipelines list 2>&1 | grep -q "quent_tech_analytics_pipeline"; then
+        echo "Pipeline already exists"
+      else
+        cat > /tmp/quent_tech_pipeline_transform.sql << 'EOSQL'
+${sqlTransform}
+EOSQL
+        npx wrangler@latest pipelines create quent_tech_analytics_pipeline --sql-file /tmp/quent_tech_pipeline_transform.sql 2>&1
+      fi
+    `
+  ),
+  delete: pulumi.all([cfApiToken]).apply(([token]) => `
+    export CLOUDFLARE_API_TOKEN="${token}"
+    export CLOUDFLARE_ACCOUNT_ID="${cfAccountId}"
+    npx wrangler@latest pipelines delete quent_tech_analytics_pipeline 2>&1 || true
+  `),
+}, { dependsOn: [createStream, createSink] });
+
+// Analytics Worker (deployed via wrangler, managed outside Pulumi for now)
+// Source: /tmp/quent-tech-analytics-worker/
+// Binding: ANALYTICS_PIPELINE -> stream 85859721adbf4fceaac478f50f6129fd
+
+// =============================================================================
 // Exports
 // =============================================================================
 
@@ -491,3 +610,5 @@ export const hostedZoneNameServers = hostedZone.nameServers;
 export const certificateArn = certificate.arn;
 export const apiUrl = pulumi.interpolate`https://${apiDomainName}/contact`;
 export const apiGatewayUrl = api.apiEndpoint;
+export const analyticsStreamEndpoint = "https://85859721adbf4fceaac478f50f6129fd.ingest.cloudflare.com";
+export const analyticsWorkerEndpoint = "https://quent-tech-analytics.quent-tech.workers.dev";
