@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function CookieConsent() {
   const [showBanner, setShowBanner] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const consent = localStorage.getItem("cookie-consent");
@@ -30,10 +32,9 @@ export default function CookieConsent() {
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-sm text-gray-300 text-center sm:text-left">
           <p>
-            We use cookies to enhance your browsing experience and analyze site traffic.
-            By clicking &quot;Accept&quot;, you consent to our use of cookies.{" "}
+            {t.cookie.message}{" "}
             <Link href="/privacy" className="underline hover:text-white">
-              Learn more
+              {t.cookie.learnMore}
             </Link>
           </p>
         </div>
@@ -48,7 +49,7 @@ export default function CookieConsent() {
             onClick={acceptCookies}
             className="px-4 py-2 text-sm bg-[#0066cc] rounded-lg hover:bg-[#004d99] transition-colors"
           >
-            Accept
+            {t.cookie.accept}
           </button>
         </div>
       </div>

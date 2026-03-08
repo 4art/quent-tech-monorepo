@@ -2,15 +2,18 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
+import LanguageSelector from "./LanguageSelector";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Services", href: "/services" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
+    { name: t.nav.home, href: "/" },
+    { name: t.nav.services, href: "/services" },
+    { name: t.nav.about, href: "/about" },
+    { name: t.nav.contact, href: "/contact" },
   ];
 
   return (
@@ -27,23 +30,25 @@ export default function Header() {
           <div className="hidden md:flex md:items-center md:space-x-8">
             {navigation.map((item) => (
               <Link
-                key={item.name}
+                key={item.href}
                 href={item.href}
                 className="text-gray-700 hover:text-[#0066cc] font-medium transition-colors"
               >
                 {item.name}
               </Link>
             ))}
+            <LanguageSelector />
             <Link
               href="/contact"
               className="gradient-bg text-white px-5 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity"
             >
-              Get Started
+              {t.nav.getStarted}
             </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-3">
+            <LanguageSelector />
             <button
               type="button"
               className="text-gray-700 hover:text-[#0066cc]"
@@ -66,7 +71,7 @@ export default function Header() {
             <div className="flex flex-col space-y-3">
               {navigation.map((item) => (
                 <Link
-                  key={item.name}
+                  key={item.href}
                   href={item.href}
                   className="text-gray-700 hover:text-[#0066cc] font-medium py-2"
                   onClick={() => setMobileMenuOpen(false)}
@@ -79,7 +84,7 @@ export default function Header() {
                 className="gradient-bg text-white px-5 py-2 rounded-lg font-medium text-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Get Started
+                {t.nav.getStarted}
               </Link>
             </div>
           </div>
