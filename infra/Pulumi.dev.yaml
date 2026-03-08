@@ -1,3 +1,7 @@
 config:
   aws:profile: artem
   aws:region: eu-central-1
+  cloudflare:apiToken:
+    secure: AAABAG0EKBxDtR25AqTv1SWCIGfrrud6KqXX3ePwOVYBjDUNRiiAdjYpj0b4zngwe1BcpNeQ0iNZYYRRFbtIHQucDqn0yHuf
+  cloudflare:accountId: 79fd04f482c50929b077d5c4ef7078b5
+  cloudflare:account_id: 79fd04f482c50929b077d5c4ef7078b5
