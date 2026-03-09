@@ -88,7 +88,7 @@ export const metadata: Metadata = {
     canonical: "https://quent-tech.com",
   },
   verification: {
-    google: "YOUR_GOOGLE_VERIFICATION_CODE",
+    google: "NNP4KQrrNxTR5x2QANG9YmQ59e5LSEuh6nbGmeQwK30",
   },
 };
 
@@ -103,9 +103,9 @@ const jsonLd = {
   email: "info@quent-tech.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Tombs of the Kings 81, Glamour Tower, office 7",
+    streetAddress: "Georgiou Griva Digeni 51, Athineon Building, 1st floor",
     addressLocality: "Paphos",
-    postalCode: "8046",
+    postalCode: "8047",
     addressCountry: "CY",
   },
   geo: {
@@ -148,6 +148,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="alternate" hrefLang="en" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="de" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="fr" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="es" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="it" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="ru" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="uk" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="pt" href="https://quent-tech.com/" />
+        <link rel="alternate" hrefLang="x-default" href="https://quent-tech.com/" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

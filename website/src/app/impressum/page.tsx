@@ -2,7 +2,15 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Impressum | Quent Tech Ltd",
-  description: "Legal information and company details for Quent Tech Ltd.",
+  description: "Legal information and company details for Quent Tech Ltd (HE 486705). Registered in Paphos, Cyprus.",
+  alternates: {
+    canonical: "https://quent-tech.com/impressum",
+  },
+  openGraph: {
+    title: "Impressum | Quent Tech Ltd",
+    description: "Legal information and company details for Quent Tech Ltd (HE 486705). Registered in Paphos, Cyprus.",
+    url: "https://quent-tech.com/impressum",
+  },
 };
 
 export default function ImpressumPage() {

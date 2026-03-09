@@ -2,7 +2,15 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Quent Tech Ltd",
-  description: "Privacy Policy for Quent Tech Ltd - Learn how we collect, use, and protect your personal data.",
+  description: "Privacy Policy for Quent Tech Ltd - Learn how we collect, use, and protect your personal data. GDPR compliant.",
+  alternates: {
+    canonical: "https://quent-tech.com/privacy",
+  },
+  openGraph: {
+    title: "Privacy Policy | Quent Tech Ltd",
+    description: "Privacy Policy for Quent Tech Ltd - Learn how we collect, use, and protect your personal data. GDPR compliant.",
+    url: "https://quent-tech.com/privacy",
+  },
 };
 
 export default function PrivacyPage() {

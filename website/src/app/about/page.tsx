@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://quent-tech.com/about",
   },
+  openGraph: {
+    title: "About Us - IT Consulting & Staff Augmentation Experts | Quent Tech Ltd",
+    description: "Quent Tech Ltd: boutique IT consultancy and staff augmentation firm in Paphos, Cyprus. Founded by Artem Firsov with 10+ years experience.",
+    url: "https://quent-tech.com/about",
+  },
 };
 
 export default function About() {

@@ -7,6 +7,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://quent-tech.com/contact",
   },
+  openGraph: {
+    title: "Contact Us - Get IT Consulting Quote | Quent Tech Ltd",
+    description: "Contact Quent Tech Ltd for IT consulting, software development, and cloud solutions. Based in Paphos, Cyprus.",
+    url: "https://quent-tech.com/contact",
+  },
 };
 
 export default function ContactLayout({
