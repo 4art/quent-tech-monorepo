@@ -1,8 +1,15 @@
 interface Env {
   CLOUDFLARE_API_TOKEN: string;
+  AUTH_KV: KVNamespace;
 }
 
 const ZONE_ID = "0bf61f92bd7856e5e52bc7229146ac61";
+
+function getSessionToken(request: Request): string | null {
+  const cookie = request.headers.get("Cookie") || "";
+  const match = cookie.match(/qt_session=([^;]+)/);
+  return match ? match[1] : null;
+}
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const corsHeaders = {
@@ -17,7 +24,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return new Response(JSON.stringify({ error: "API token not configured" }), { status: 500, headers: corsHeaders });
   }
 
-  // Auth check
+  // Auth check - accept both cookie session and legacy session field
+  const sessionToken = getSessionToken(context.request);
+  let authed = false;
+
+  if (sessionToken) {
+    const session = await context.env.AUTH_KV.get(`session:${sessionToken}`);
+    authed = session !== null;
+  }
+
   let body: any;
   try {
     body = await context.request.json();
@@ -25,11 +40,16 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400, headers: corsHeaders });
   }
 
-  const { session, days = 30 } = body;
-  if (session !== "qt-admin-authenticated") {
+  // Legacy support for old session check
+  if (!authed && body.session === "qt-admin-authenticated") {
+    authed = true;
+  }
+
+  if (!authed) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers: corsHeaders });
   }
 
+  const { days = 30 } = body;
   const since = new Date(Date.now() - days * 86400000).toISOString().split("T")[0] + "T00:00:00Z";
   const until = new Date().toISOString().split("T")[0] + "T23:59:59Z";
 
